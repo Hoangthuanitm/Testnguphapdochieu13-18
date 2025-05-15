@@ -438,7 +438,7 @@
                 </div>
                 <div class="option">
                     <input type="radio" id="q5-3" name="q5">
-                    <label for="q5-3">3. を、へ</label>
+                    <label for="q5-3">3.10、へ</label>
                 </div>
                 <div class="option">
                     <input type="radio" id="q5-4" name="q5">
@@ -629,7 +629,7 @@
             <div class="answer-feedback" id="feedback-12"></div>
         </div>
         <div class="question">
-            <p>３．山田：「ジョンさん、しゅくだいは ぜんぶ おわりましたか。」<br>ジョン：「いいえ、まだです。ここ______ _____ ___★___ _______ さいごの もんだいが むずかしいです。」</p>
+            <p>３．山田：「ジョンさん、しゅくだいは ぜんぶ おわりましたか。」<br>ジョン：「いいえ、次は、まだです。ここ______ _____ ___★___ _______ さいごの もんだいが むずかしいです。」</p>
             <div class="options">
                 <div class="option">
                     <input type="radio" id="q13-1" name="q13">
@@ -700,7 +700,7 @@
         <h2>問題Ⅲ．[１] から [４] に 何を 入れますか。次の文を読んで、１·２·３·４ から一番良いものを一つ選んで ください。（2.5*4=10）</h2>
         <div class="vietnamese">Đọc đoạn văn sau và chọn đáp án đúng nhất từ 1 đến 4 để điền vào chỗ trống [１] đến [４].</div>
         <div class="question">
-            <p>私は こうえんのそばに すんでいます。朝、「○1」おきて、よくさんぽします。大きい木が ありますから、とりが たくさんいます。とりのこえは「○2」、とても好きです。木の下で、おじいさんは 本を 読んでいます。いけのそばで 男の子と女の子は いっしょにあそんでいます。二人の女の人は はしっています。いろいろな人が 来て、こうえんはとても「○3」。雨の日は、あまり人が来ません。「○4」、私は 雨が ふっても さんぽします。</p>
+            <p>私は こうえんのそばに すんでいます。朝、「1」おきて、よくさんぽします。大きい木が ありますから、とりが たくさんいます。とりのこえは「2」、とても好きです。木の下で、おじいさんは 本を 読んでいます。いけのそばで 男の子と女の子は いっしょにあそんでいます。二人の女の人は はしっています。いろいろな人が 来て、こうえんはとても「3」。雨の日は、あまり人が来ません。「4」、私は 雨が ふっても さんぽします。</p>
             <div class="question">
                 <p>１．「①」はどれですか。</p>
                 <div class="options">
@@ -821,7 +821,7 @@
             </div>
         </div>
         <div class="question">
-            <p>（２）<br>ホンさんのりょうの近くに スーパーが 2つあります。ABC スーパーの肉は とても安いです。エアオンスーパーは やさいとたまごが 安いですが、ミルクと肉が ちょっと高いです。ABC スーパーは エアオンスーパーより しなものが すくないです。</p>
+            <p>（２）<br>ホンさんのりょうの近くに スーパーが 2つあります。ABC スーパーの肉は とても安いです。エアオンスーパーは やさいとたまごが 安いですが、ミ Dessertsミルクと肉が ちょっと高いです。ABC スーパーは エアオンスーパーより しなものが すくないです。</p>
             <div class="question">
                 <p>２．正しいものはどれですか。</p>
                 <div class="options">
@@ -1119,8 +1119,8 @@
         const db = getFirestore(app);
 
         const answerKey = {
-            1: 1, 2: 3, 3: 3, 4: 3, 5: 4, 6: 3, 7: 3, 8: 4, 9: 1, 10: 3,
-            11: 4, 12: 4, 13: 4, 14: 2, 15: 4, 16: 4, 17: 2, 18: 3, 19: 3,
+            1: 1, 2: 3, 3: 3, 4: 3, 5: 4, 6: 4, 7: 3, 8: 4, 9: 1, 10: 3,
+            11: 1, 12: 4, 13: 2, 14: 3, 15: 1, 16: 4, 17: 1, 18: 3, 19: 3,
             20: 3, 21: 4, 22: 1, 23: 4, 24: 3, 25: 2, 26: 3, 27: 1, 28: 4, 29: 4
         };
 
@@ -1130,6 +1130,65 @@
 
         let startTime = null;
         let timerInterval = null;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function shuffleOptions() {
+            const questions = document.querySelectorAll('.question');
+            questions.forEach((question, index) => {
+                const questionNumber = question.querySelector('input[type="radio"]').name.replace('q', '');
+                const optionsContainer = question.querySelector('.options');
+                const options = Array.from(optionsContainer.querySelectorAll('.option'));
+                const originalLabels = options.map(option => ({
+                    id: option.querySelector('input').id,
+                    value: parseInt(option.querySelector('input').id.split('-')[1]),
+                    text: option.querySelector('label').textContent
+                }));
+
+                const shuffledValues = shuffleArray([1, 2, 3, 4]);
+                const newOptions = shuffledValues.map((value, idx) => {
+                    const originalOption = originalLabels.find(opt => opt.value === value);
+                    return `
+                        <div class="option">
+                            <input type="radio" id="q${questionNumber}-${idx + 1}" name="q${questionNumber}">
+                            <label for="q${questionNumber}-${idx + 1}">${originalOption.text}</label>
+                        </div>
+                    `;
+                });
+
+                optionsContainer.innerHTML = newOptions.join('');
+            });
+
+            const examples = document.querySelectorAll('.example');
+            examples.forEach(example => {
+                const optionsContainer = example.querySelector('.options');
+                const options = Array.from(optionsContainer.querySelectorAll('.option'));
+                const originalLabels = options.map(option => ({
+                    id: option.querySelector('input').id,
+                    value: parseInt(option.querySelector('input').id.split('-')[1]),
+                    text: option.querySelector('label').textContent
+                }));
+
+                const shuffledValues = shuffleArray([1, 2, 3, 4]);
+                const newOptions = shuffledValues.map((value, idx) => {
+                    const originalOption = originalLabels.find(opt => opt.value === value);
+                    return `
+                        <div class="option">
+                            <input type="radio" id="${originalOption.id.replace(/\d$/, idx + 1)}" name="${originalOption.id.split('-')[0]}">
+                            <label for="${originalOption.id.replace(/\d$/, idx + 1)}">${originalOption.text}</label>
+                        </div>
+                    `;
+                });
+
+                optionsContainer.innerHTML = newOptions.join('');
+            });
+        }
 
         function normalizeString(str) {
             return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -1149,7 +1208,10 @@
                 const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
                 if (selectedOption) {
                     const userAnswer = parseInt(selectedOption.id.split('-')[1]);
-                    if (userAnswer === answerKey[i]) {
+                    const options = Array.from(document.querySelectorAll(`input[name="q${i}"]`));
+                    const selectedIndex = options.findIndex(opt => opt.checked);
+                    const originalValue = parseInt(options[selectedIndex].nextElementSibling.textContent.split('.')[0]);
+                    if (originalValue === answerKey[i]) {
                         score += pointsPerQuestion;
                     }
                     showRadioAnswerFeedback(i);
@@ -1166,7 +1228,9 @@
                 feedbackElement.classList.add('wrong');
                 return;
             }
-            const userAnswer = parseInt(selectedOption.id.split('-')[1]);
+            const options = Array.from(document.querySelectorAll(`input[name="q${questionNumber}"]`));
+            const selectedIndex = options.findIndex(opt => opt.checked);
+            const userAnswer = parseInt(options[selectedIndex].nextElementSibling.textContent.split('.')[0]);
             if (userAnswer === answerKey[questionNumber]) {
                 feedbackElement.textContent = 'Đúng!';
                 feedbackElement.classList.remove('wrong');
@@ -1206,7 +1270,7 @@
 
         function checkPassword() {
             const passwordInput = document.getElementById('password-input').value;
-            const passwordError = document.getElementById('password-error');
+            const passwordError = document.getElementById('њиохтнагрешка');
             if (passwordInput === '112') {
                 window.location.href = 'history.html';
             } else {
@@ -1216,7 +1280,7 @@
         }
 
         function showPasswordModal() {
-            document.getElementById('password-modal').style.display = 'flex';
+            document.getElementById('password-modal 模擬試験-modal').style.display = 'flex';
             document.getElementById('password-input').focus();
         }
 
@@ -1352,7 +1416,7 @@
 
         function resetTest() {
             document.getElementById('name').value = '';
-            document.getElementById('class').value = '';
+                        document.getElementById('class').value = '';
             document.getElementById('date').value = '';
             document.getElementById('message-info').textContent = '';
             document.getElementById('message-result').textContent = '';
@@ -1382,7 +1446,7 @@
             const messageInfo = document.getElementById('message-info');
 
             if (!name || !className || !dateInput) {
-                messageInfo.textContent = 'Vui lòng điền đầy đủ thông tin: Tên, Lớp, và Ngày.';
+                messageInfo.textContent = 'Vui lòng điền đầy đủ thông tin cá nhân.';
                 return;
             }
 
@@ -1394,6 +1458,7 @@
             });
             document.getElementById('submit-test').style.display = 'block';
             document.getElementById('timer').style.display = 'block';
+            shuffleOptions();
             startTimer();
         });
 
