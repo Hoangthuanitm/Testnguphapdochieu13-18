@@ -271,46 +271,17 @@
             color: #EF4444;
             font-weight: 500;
         }
-       .image-placeholder {
-    width: 100%; /* Chiếm toàn bộ chiều rộng của khung chứa cha */
-    max-width: 600px; /* Giới hạn chiều rộng tối đa */
-    height: 300px; /* Chiều cao cố định */
-    display: flex; /* Sử dụng flexbox để căn giữa */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    margin: 0 auto; /* Căn giữa khung trong trang */
-    background-color: #FFFFFF; /* Nền trắng */
-    overflow: hidden; /* Ẩn phần nội dung vượt quá khung */
-    box-sizing: border-box; /* Đảm bảo padding và border nằm trong kích thước */
-}
-
-.image-placeholder img {
-    max-width: 100%; /* Hình ảnh không vượt quá chiều rộng khung chứa */
-    max-height: 100%; /* Hình ảnh không vượt quá chiều cao khung chứa */
-    object-fit: contain; /* Giữ tỷ lệ hình ảnh, không bị cắt */
-    display: block; /* Loại bỏ khoảng trống dưới hình ảnh */
-}
-
-/* Media query cho thiết bị di động */
-@media (max-width: 600px) {
-    .image-placeholder {
-        width: 100%; /* Chiếm toàn bộ chiều rộng trên di động */
-        max-width: 100%; /* Không vượt quá chiều rộng màn hình */
-        height: 200px; /* Giảm chiều cao trên màn hình nhỏ */
-        margin: 0; /* Loại bỏ lề để tránh tràn */
-        padding: 0; /* Loại bỏ đệm để tránh tràn */
-    }
-
-    .image-placeholder img {
-        max-width: 100%; /* Đảm bảo hình ảnh không vượt khung */
-        max-height: 100%; /* Đảm bảo hình ảnh không vượt khung */
-    }
-}
-
-/* Ngăn chặn thanh trượt ngang trên toàn bộ trang */
-body {
-    overflow-x: hidden; /* Tắt cuộn ngang */
-}
+        @media (max-width: 600px) {
+            .timer {
+                top: 10px;
+                right: 10px;
+                font-size: 1em;
+                padding: 8px 16px;
+            }
+            .password-box {
+                width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -729,9 +700,8 @@ body {
         <h2>問題Ⅲ．[１] から [４] に 何を 入れますか。次の文を読んで、１·２·３·４ から一番良いものを一つ選んで ください。（2.5*4=10）</h2>
         <div class="vietnamese">Đọc đoạn văn sau và chọn đáp án đúng nhất từ 1 đến 4 để điền vào chỗ trống [１] đến [４].</div>
         <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/kHZ3Vi2HXck5NaY7HnoOj22uVVA1UK6qbx0vLxhR2lK8jg8ntWYXdxX0YUVXG8Sa_jiE60vaKd1-eky1ebwt2iPfGoCARocMsDLPJdmuqFY7ZYvMS1ia3-Juv_IadcyX--ccQDIYUH713oKFm64E8GUoK0vc9Dvm5WB2b4uh3_cuILjEyNO2foeOfs1kZphPHJsRhp-E?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
+            <p>私は こうえんのそばに すんでいます。朝、「①」おきて、よくさんぽします。大きい木が ありますから、とりが たくさんいます。とりのこえは「②」、とても好きです。木の下で、おじいさんは 本を 読んでいます。いけのそばで 男の子と女の子は いっしょにあそんでいます。二人の女の人は はしっています。いろいろな人が 来て、こうえんはとても「③」。雨の日は、あまり人が来ません。「④」、私は 雨が ふっても さんぽします。</p>
+            <div class="question">
                 <p>１．「①」はどれですか。</p>
                 <div class="options">
                     <div class="option">
@@ -826,9 +796,7 @@ body {
         <h2>問題Ⅳ．次の文章を読んで、① から ④の 質問に答えてください。一番良いものを一つ選んでください。（4*4=16）</h2>
         <div class="vietnamese">Đọc các đoạn văn sau và trả lời các câu hỏi từ ① đến ④, chọn đáp án đúng nhất.</div>
         <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/shulKaOVeq1eLhaNJGB_fqnHh_R0aMJUUdF5SWv8IKWeb4PZS1-cJ3mUn3C8NCTQewZK7MXoHRWHp9SOnj5Mm5_nMmc1J7pFrS_oq25El-sB7D-0_f6mQvefY81oo_W5fh1ge6jVavu6BavQHt1RrMtE282I0ahVqB9odQ5nAyBw9cEAG5Xm92ldMV15m-fUczKLY3U3?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
+            <p>（１）<br>ははのメモ<br>アンちゃん、お母さんは 出かけなければなりません。このくすりは 食べる前に、飲んでください。かぜですから、おふろに 入らないで、はやく寝てくださいね。</p>
             <div class="question">
                 <p>１．アンちゃんは 何を しなければなりませんか。</p>
                 <div class="options">
@@ -853,10 +821,7 @@ body {
             </div>
         </div>
         <div class="question">
-                    <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/qsyCAux0AdZI089dIp0jrdRBkFpFTgnzgCoLgjYeMlXN3Zu3TOVcDniQ6dQFLu9oKCNOoCTOFUiEAi7ASfRa9zChg3G19cynT7qmCtCSv1T4BmWeFIdI10Li8Ds8ZttTkdmfT7mB9l5FyB6-Xx00AsIj33byrh2gbASu7uKwC2LJk8GBH2r5aoaaqfrYlBKmUex1T3zS?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
+            <p>（２）<br>ホンさんのりょうの近くに スーパーが 2つあります。ABC スーパーの肉は とても安いです。エアオンスーパーは やさいとたまごが 安いですが、ミ Dessertsミルクと肉が ちょっと高いです。ABC スーパーは エアオンスーパーより しなものが すくないです。</p>
             <div class="question">
                 <p>２．正しいものはどれですか。</p>
                 <div class="options">
@@ -880,10 +845,10 @@ body {
                 <div class="answer-feedback" id="feedback-21"></div>
             </div>
         </div>
-         <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/kUz4VJSX9YONQoeR70X8ryLWXDWlXwe4wwtATIp1uS_FwlPenKQYHCTNcYwG5LV1_qk7zoOCRhDPCw9F5IHyIvN8AXex_uUy9NgQ8XMQtVGWMMxBn5n6UAyl6zds1efpe2Ae5rhUNaBhDtLVIBuzcnoH5PbAxajkFBFAhZzB9wBIZHUkS5HZHocvkom02bgsDbCx468A?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
+        <div class="question">
+            <p>日本で べんきょうして いる 学生が 「プレゼント」の ぶんしょうを 書いて、クラスの みんなの 前で 読みました。</p>
+            <p>1. ユリさんの ぶんしょう<br>わたしが １０さいに なったとき、母からの 誕生日 プレゼントは 一さつの 本でした。とても おもしろい 本で、すぐにぜんぶ読んで、それから、また はじめから 読みました。私は ねる前に、よく その 本を 読みました。その 本は 今も 私の ほんだなにあります。ときどき 読みます。</p>
+            <p>2. サムさんの ぶんしょう<br>きょねんの たんじょう日に つまが ネクタイをもらいました。青い ネクタイです。わたしは ときどき その ネクタイを して、会社に 行きます。このあいだ DINHさんが「いい ネクタイですね」と いいました。わたしは とても うれしかったです。来月は つまの たんじょう日が あります。つまの たんじょう日に わたしも いいプレゼントをあげます。</p>
             <div class="question">
                 <p>３．ユリさんは ねる前に よく何を しましたか。</p>
                 <div class="options">
@@ -935,9 +900,7 @@ body {
         <h2>問題Ⅴ．次の文章を読んで、① から ④の質問に答えてください。答えは１·２·３·４ から一番良いものを一つ選んでください。（4*4=16）</h2>
         <div class="vietnamese">Đọc đoạn văn sau và trả lời các câu hỏi từ ① đến ④, chọn đáp án đúng nhất.</div>
         <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/TcQzdO3PvUDiwLK-eFCBTRDW-ATCrvy1wgRtNiTkJjpf3wVEAWw83jeTQczzP8tvBs52C0Trhh_sokBNIRRJ20bIBupzXiAcgKz54xoWXTcfyX4khH-ktl0TiQKQqRhRd9aA5TLq7SBjrVCTACy_mTSdrjJtq37tOUvtGC53_mF_4SIiVGLl7keKNnQThj3tfjtTl6ZE?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
+            <p>私はミラーです。去年の１月に日本へりゅうがくに来ました。今とうきょう大学でけいざいを勉強しています。私の日本人の一番したしい友達は高橋さんです。大学のパーティーではじめてあいました。高橋さんと私は誕生日がおなじで、アパートも近いですから、すぐ友達になりました。私も高橋さんもうたが好きです。ときどき、二人はカラオケに行きます。私は英語の歌だけ知っていますが、高橋さんは日本語のうたも英語のうたもうたうことができます。英語のうたはとても上手です。私も日本語のうたをうたいたいですから、今高橋さんにCDをかりて、おぼえています。高橋さんは来週から一年間、アメリカへ英語の勉強に行きます。私はちょっとさびしいです。今日高橋さんにときどきメールを書いて、私をわすれないでくださいといいました。</p>
             <div class="question">
                 <p>１．ミラーさんは日本へ何に来ましたか。</p>
                 <div class="options">
@@ -1033,9 +996,7 @@ body {
         <h2>問題Ⅵ．次の文章を読んで、質問に答えてください。答えは１·２·３·４から 一番良いものを 一つ選んでください。（8*1=8）</h2>
         <div class="vietnamese">Đọc đoạn văn sau và trả lời câu hỏi, chọn đáp án đúng nhất từ 1 đến 4.</div>
         <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/bR5SR18IEL1CRTIZ8GgE7q4St-BNhtchqMY0gkRr3f3mJsw4K2Fs7EruawUcznV6uN5qt4YeFMAOjL2virFPIUkyEY59ae56akF9Sa2Wz7LyQstareqcG6_8r8nyJPQJ_8bQK5jmOGZpY5UDogIApQFhkwdq0pnHD9QPuTaQLLseQukQ2hFXhf5uz6ujQcqiLOJ0TNWm?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
+            <p>としょかんに来る人へ<br>12月13日に マラソンが あります。たくさんの人が はしりますから、車は としょかんの前の みちに 入ることが できません。この日は バスも 走りません。としょかんには 電車か 地下鉄で 来てください。あずまえきで おりて、あるいて 5分です。<br>東図書館</p>
             <div class="question">
                 <p>１．正しいものは どれですか。</p>
                 <div class="options">
@@ -1065,12 +1026,30 @@ body {
         <h2>問題Ⅶ．下の表を見て、下の質問に答えてください。答えは、１・２・３・４から 一番 良いものを一つ選んでください。（10*1=10）</h2>
         <div class="vietnamese">Xem bảng dưới đây và trả lời câu hỏi, chọn đáp án đúng nhất từ 1 đến 4.</div>
         <div class="question">
-        <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/sVwKJiSrK5N-t80tS6r8CyZre5h6KpwnxdycCgj2zllTKau0rdOze2A03NBzByN8gWFmjKSyh0ZyZxvnoBQrcXNeCZlL1OvMADcsbVg4v2vtCtTSCRJMKhyZ939HRebNuKEqosPc7kxb9USow3UmjUxUU0I2_IXKB7usugNBkIzKc361BA269iq5Utc_XnblvBpgXRj2?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>
-             <div class="image-placeholder">
-    <img src="https://lh7-us.googleusercontent.com/HoqAvMQrkhAsU6iexSr_AiRh8T96Vtubfw04tOxwlsEzasYUoxW-9VZmZteipI8RvlH4TOQ4ZmaDZFM86Xvc1ffEdUFAUaYsTb_hR0gGsAD1LlQmW0HvGlo1EgWk29kwBUiAI5vF-sYLtegO9_XwqZkkyp29IBsQPyXiAOZtTGHc367ias19YNAL_nYkQRhMnXzSXwW5?key=NYtkpHeL-HnYhGpJ7C4syLB2" alt="Thông tin thẻ điểm mua sắm" id="image-q31-1">
-</div>            
+            <p>ワンさんは 明日 木村さんと えいがを 見に 行きます。ワンさんは おひるまで じゅぎょうが あります。木村さんは じゅぎょうが ありませんが、ごご４時から９時まで アルバイトが あります。がっこうから えいがかんまで じてんしゃで ２０分ぐらいで、えいがかんから アルバイトの 店まで じてんしゃで １５分 ぐらいです。</p>
+            <p>映画の時間</p>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                <tr style="background-color: #4A90E2; color: #FFFFFF;">
+                    <th style="border: 1px solid #E0E4EA; padding: 10px;">映画</th>
+                    <th style="border: 1px solid #E0E4EA; padding: 10px;">時間</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">さくら</td>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">9:50-11:45 / 16:30-18:25</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">ほたるのはか</td>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">17:20-18:50 / 9:30-11:00</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">1リットルのなみだ</td>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">10:00-12:00 / 14:00-16:00 / 18:00-20:00</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">帰る日</td>
+                    <td style="border: 1px solid #E0E4EA; padding: 10px;">9:30-11:05 / 11:30-13:05 / 13:40-15:15 / 15:50-17:25</td>
+                </tr>
+            </table>
             <div class="question">
                 <p>１．2人は どのえいがを 見ますか。</p>
                 <div class="options">
