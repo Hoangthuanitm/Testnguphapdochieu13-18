@@ -275,37 +275,46 @@
     width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử cha */
     max-width: 100vw; /* Không vượt quá chiều rộng màn hình */
     height: auto; /* Chiều cao tự động theo tỷ lệ */
-    display: flex; /* Căn giữa hình ảnh */
+    display: flex; /* Sử dụng flexbox để căn giữa */
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center; /* Căn giữa theo chiều dọc */
     overflow: hidden; /* Ẩn phần hình ảnh vượt quá khung */
-    margin: 0 auto; /* Căn giữa khung trong trang */
+    margin: 0; /* Loại bỏ margin để sát mép */
     padding: 0; /* Loại bỏ padding để tránh trượt ngang */
     box-sizing: border-box; /* Đảm bảo kích thước tính cả border/padding */
 }
 
 .image-placeholder img {
     width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng khung chứa */
-    max-width: 100%; /* Không vượt quá khung chứa */
+    max-width: 100%; /* Không vượt quá khung chứa hoặc màn hình */
     height: auto; /* Giữ tỷ lệ hình ảnh */
-    object-fit: contain; /* Hiển thị toàn bộ hình ảnh, giữ tỷ lệ */
+    object-fit: contain; /* Đảm bảo toàn bộ hình ảnh hiển thị, giữ tỷ lệ */
     display: block; /* Loại bỏ khoảng trống dưới hình ảnh */
 }
 
-/* Media query cho thiết bị di động */
+/* Tối ưu hóa cho thiết bị di động */
 @media (max-width: 600px) {
     .image-placeholder {
         width: 100vw; /* Chiếm toàn bộ chiều rộng màn hình */
         max-width: 100vw; /* Đảm bảo không vượt quá màn hình */
+        margin: 0; /* Loại bỏ margin */
         padding: 0; /* Loại bỏ padding */
-        margin: 0; /* Loại bỏ margin để sát mép */
     }
 
     .image-placeholder img {
         width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng */
-        max-width: 100%; /* Không vượt quá màn hình */
+        max-width: 100vw; /* Không vượt quá chiều rộng màn hình */
         height: auto; /* Giữ tỷ lệ */
         object-fit: contain; /* Giữ tỷ lệ, không cắt hình */
+    }
+
+    /* Đảm bảo body không gây trượt ngang */
+    body {
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Ẩn thanh cuộn ngang */
     }
 }
     </style>
