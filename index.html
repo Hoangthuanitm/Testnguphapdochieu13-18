@@ -312,7 +312,7 @@
 
     <div id="timer" class="timer" style="display: none;">Thời gian còn lại: 50:00</div>
 
-    <div class="question-section">
+     <div class="question-section">
         <h2>問題Ⅰ．（ ）に何をいれますか。１．２．３．４からいちばんいいものを一つえらんでください。（2*10=20）</h2>
         <div class="vietnamese">Chọn đáp án đúng nhất từ 1 đến 4 để điền vào chỗ trống.</div>
         <div class="example">
@@ -1118,19 +1118,28 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Answer key (placeholder for lessons 13–18; update with actual answers)
         const answerKey = {
             1: 1, 2: 3, 3: 3, 4: 3, 5: 4, 6: 4, 7: 3, 8: 4, 9: 1, 10: 3,
             11: 1, 12: 4, 13: 2, 14: 3, 15: 1, 16: 4, 17: 1, 18: 3, 19: 3,
             20: 3, 21: 4, 22: 1, 23: 4, 24: 3, 25: 2, 26: 3, 27: 1, 28: 4, 29: 4
         };
 
+        // Section points
         const sectionPoints = {
-            1: 20, 2: 20, 3: 10, 4: 16, 5: 16, 6: 8, 7: 10
+            1: 20, // 10 questions, 2 points each
+            2: 15, // 5 questions, 3 points each
+            3: 20, // 4 questions, 5 points each
+            4: 10, // 2 questions, 5 points each
+            5: 10, // 2 questions, 5 points each
+            6: 10, // 2 questions, 5 points each
+            7: 10, // 2 questions, 5 points each
         };
 
         let startTime = null;
         let timerInterval = null;
 
+        // Shuffle array using Fisher-Yates algorithm
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -1139,54 +1148,36 @@
             return array;
         }
 
+        // Shuffle answer options for all questions and examples
         function shuffleOptions() {
-            const questions = document.querySelectorAll('.question');
-            questions.forEach((question, index) => {
-                const questionNumber = question.querySelector('input[type="radio"]').name.replace('q', '');
-                const optionsContainer = question.querySelector('.options');
+            const questionIds = ['q1-rei', 'q2-REI', ...Array.from({length: 29}, (_, i) => `q${i+1}`)];
+            questionIds.forEach(qId => {
+                const optionsContainer = document.querySelector(`input[name="${qId}"]`)?.closest('.options');
+                if (!optionsContainer) return;
+
                 const options = Array.from(optionsContainer.querySelectorAll('.option'));
-                const originalLabels = options.map(option => ({
-                    id: option.querySelector('input').id,
-                    value: parseInt(option.querySelector('input').id.split('-')[1]),
-                    text: option.querySelector('label').textContent.replace(/^\d+\.\s*/, '')
+                const optionData = options.map(option => ({
+                    inputId: option.querySelector('input').id,
+                    inputName: option.querySelector('input').name,
+                    labelText: option.querySelector('label').textContent.replace(/^\d+\.\s*/, ''),
+                    labelFor: option.querySelector('label').getAttribute('for'),
+                    isChecked: option.querySelector('input').checked
                 }));
 
-                const shuffledValues = shuffleArray([1, 2, 3, 4]);
-                const newOptions = shuffledValues.map((value, idx) => {
-                    const originalOption = originalLabels.find(opt => opt.value === value);
-                    return `
-                        <div class="option">
-                            <input type="radio" id="q${questionNumber}-${idx + 1}" name="q${questionNumber}">
-                            <label for="q${questionNumber}-${idx + 1}">${originalOption.text}</label>
-                        </div>
+                // Shuffle options
+                const shuffledOptions = shuffleArray(optionData);
+
+                // Update DOM with shuffled options
+                optionsContainer.innerHTML = '';
+                shuffledOptions.forEach((data, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.innerHTML = `
+                        <input type="radio" id="${data.inputId}" name="${data.inputName}" ${data.isChecked ? 'checked' : ''}>
+                        <label for="${data.inputId}">${data.labelText}</label>
                     `;
+                    optionsContainer.appendChild(optionDiv);
                 });
-
-                optionsContainer.innerHTML = newOptions.join('');
-            });
-
-            const examples = document.querySelectorAll('.example');
-            examples.forEach(example => {
-                const optionsContainer = example.querySelector('.options');
-                const options = Array.from(optionsContainer.querySelectorAll('.option'));
-                const originalLabels = options.map(option => ({
-                    id: option.querySelector('input').id,
-                    value: parseInt(option.querySelector('input').id.split('-')[1]),
-                    text: option.querySelector('label').textContent.replace(/^\d+\.\s*/, '')
-                }));
-
-                const shuffledValues = shuffleArray([1, 2, 3, 4]);
-                const newOptions = shuffledValues.map((value, idx) => {
-                    const originalOption = originalLabels.find(opt => opt.value === value);
-                    return `
-                        <div class="option">
-                            <input type="radio" id="${originalOption.id.replace(/\d$/, idx + 1)}" name="${originalOption.id.split('-')[0]}">
-                            <label for="${originalOption.id.replace(/\d$/, idx + 1)}">${originalOption.text}</label>
-                        </div>
-                    `;
-                });
-
-                optionsContainer.innerHTML = newOptions.join('');
             });
         }
 
@@ -1195,10 +1186,10 @@
         }
 
         function getEvaluation(percentage) {
-            if (percentage >= 80) return 'A';
-            if (percentage >= 60) return 'B';
-            if (percentage >= 40) return 'C';
-            if (percentage >= 20) return 'D';
+            if (percentage >= 85) return 'A';
+            if (percentage >= 70) return 'B';
+            if (percentage >= 60) return 'C';
+            if (percentage >= 55) return 'D';
             return 'F';
         }
 
@@ -1208,10 +1199,7 @@
                 const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
                 if (selectedOption) {
                     const userAnswer = parseInt(selectedOption.id.split('-')[1]);
-                    const options = Array.from(document.querySelectorAll(`input[name="q${i}"]`));
-                    const selectedIndex = options.findIndex(opt => opt.checked);
-                    const originalValue = parseInt(options[selectedIndex].id.split('-')[1]);
-                    if (originalValue === answerKey[i]) {
+                    if (userAnswer === answerKey[i]) {
                         score += pointsPerQuestion;
                     }
                     showRadioAnswerFeedback(i);
@@ -1228,15 +1216,12 @@
                 feedbackElement.classList.add('wrong');
                 return;
             }
-            const options = Array.from(document.querySelectorAll(`input[name="q${questionNumber}"]`));
-            const selectedIndex = options.findIndex(opt => opt.checked);
-            const userAnswer = parseInt(options[selectedIndex].id.split('-')[1]);
+            const userAnswer = parseInt(selectedOption.id.split('-')[1]);
             if (userAnswer === answerKey[questionNumber]) {
                 feedbackElement.textContent = 'Đúng!';
                 feedbackElement.classList.remove('wrong');
             } else {
-                const correctOption = document.querySelector(`input[id	 id="q${questionNumber}-${answerKey[questionNumber]}"`).nextElementSibling.textContent;
-                feedbackElement.textContent = `Sai. Đáp án đúng là: ${correctOption}`;
+                feedbackElement.textContent = `Sai. Đáp án đúng là: ${answerKey[questionNumber]}`;
                 feedbackElement.classList.add('wrong');
             }
         }
@@ -1370,7 +1355,7 @@
             resultSection.style.display = 'block';
 
             try {
-                await addDoc(collection(db, 'testHistorynguphaptuvung13-18'), {
+                await addDoc(collection(db, 'testHistorynguphapdochieu13-18'), {
                     startTime: formatTime(startTime),
                     endTime: formatTime(endTime),
                     date: dateInput,
@@ -1394,7 +1379,7 @@
                 messageResult.textContent = 'Đã xảy ra lỗi khi lưu kết quả. Vui lòng thử lại.';
             }
 
-            const testHistory = JSON.parse(localStorage.getItem('testHistorynguphaptuvung13-18') || '[]');
+            const testHistory = JSON.parse(localStorage.getItem('testHistorynguphapdochieu13-18') || '[]');
             testHistory.push({
                 startTime: formatTime(startTime),
                 endTime: formatTime(endTime),
@@ -1412,7 +1397,7 @@
                 percentage,
                 evaluation
             });
-            localStorage.setItem('testHistorynguphaptuvung13-18', JSON.stringify(testHistory));
+            localStorage.setItem('testHistorynguphapdochieu13-18', JSON.stringify(testHistory));
         }
 
         function resetTest() {
@@ -1447,7 +1432,7 @@
             const messageInfo = document.getElementById('message-info');
 
             if (!name || !className || !dateInput) {
-                messageInfo.textContent = 'Vui lòng điền đầy đủ thông tin cá nhân.';
+                messageInfo.textContent = 'Vui lòng điền đầy đủ thông tin: Tên, Lớp, và Ngày.';
                 return;
             }
 
@@ -1457,9 +1442,9 @@
             document.querySelectorAll('.question-section').forEach(section => {
                 section.style.display = 'block';
             });
-                        document.getElementById('submit-test').style.display = 'block';
+            document.getElementById('submit-test').style.display = 'block';
             document.getElementById('timer').style.display = 'block';
-            shuffleOptions(); // Shuffle options when starting the test
+            shuffleOptions();
             startTimer();
         });
 
