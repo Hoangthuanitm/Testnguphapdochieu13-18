@@ -272,34 +272,26 @@
             font-weight: 500;
         }
         .image-placeholder {
-    width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử cha */
-    max-width: 100vw; /* Đảm bảo chiều rộng tối đa bằng chiều rộng màn hình */
-    height: auto; /* Chiều cao tự động điều chỉnh theo tỷ lệ hình ảnh */
+    width: 100%; /* Đặt chiều rộng tối đa bằng khung chứa */
+    max-width: 600px; /* Giới hạn chiều rộng tối đa */
+    height: 300px; /* Đặt chiều cao cố định hoặc phù hợp với nội dung */
     display: flex; /* Sử dụng flexbox để căn giữa */
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center; /* Căn giữa theo chiều dọc */
     overflow: hidden; /* Ẩn phần hình ảnh vượt quá khung */
     margin: 0 auto; /* Căn giữa khung trong trang */
-    padding: 0; /* Loại bỏ khoảng đệm để sát mép */
-    box-sizing: border-box; /* Đảm bảo padding/border không làm tăng kích thước */
 }
 
 .image-placeholder img {
-    width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng của khung chứa */
-    height: auto; /* Giữ tỷ lệ hình ảnh */
-    object-fit: contain; /* Đảm bảo toàn bộ hình ảnh hiển thị mà không bị cắt */
+    width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng khung */
+    height: 100%; /* Hình ảnh chiếm toàn bộ chiều cao khung */
+    object-fit: contain; /* Giữ tỷ lệ hình ảnh, hiển thị toàn bộ mà không bị cắt */
     display: block; /* Loại bỏ khoảng trống dưới hình ảnh */
 }
-      @media (max-width: 600px) {
+       @media (max-width: 600px) {
     .image-placeholder {
-        width: 100vw; /* Chiếm toàn bộ chiều rộng màn hình */
-        max-width: none; /* Loại bỏ giới hạn max-width */
-        height: auto; /* Tự động điều chỉnh chiều cao */
-    }
-
-    .image-placeholder img {
-        width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng */
-        height: auto; /* Giữ tỷ lệ */
+        height: 200px; /* Giảm chiều cao trên màn hình nhỏ */
+        max-width: 100%; /* Đảm bảo không vượt quá chiều rộng màn hình */
     }
 }
     </style>
