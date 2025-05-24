@@ -272,27 +272,40 @@
             font-weight: 500;
         }
        .image-placeholder {
-    width: 100%; /* Đặt chiều rộng tối đa bằng khung chứa */
-    max-width: 600px; /* Giới hạn chiều rộng tối đa */
-    height: 300px; /* Đặt chiều cao cố định hoặc phù hợp với nội dung */
-    display: flex; /* Sử dụng flexbox để căn giữa */
+    width: 100%; /* Chiếm toàn bộ chiều rộng của phần tử cha */
+    max-width: 100vw; /* Không vượt quá chiều rộng màn hình */
+    height: auto; /* Chiều cao tự động theo tỷ lệ */
+    display: flex; /* Căn giữa hình ảnh */
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center; /* Căn giữa theo chiều dọc */
     overflow: hidden; /* Ẩn phần hình ảnh vượt quá khung */
     margin: 0 auto; /* Căn giữa khung trong trang */
+    padding: 0; /* Loại bỏ padding để tránh trượt ngang */
+    box-sizing: border-box; /* Đảm bảo kích thước tính cả border/padding */
 }
 
 .image-placeholder img {
-    width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng khung */
-    height: 100%; /* Hình ảnh chiếm toàn bộ chiều cao khung */
-    object-fit: contain; /* Giữ tỷ lệ hình ảnh, hiển thị toàn bộ mà không bị cắt */
+    width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng khung chứa */
+    max-width: 100%; /* Không vượt quá khung chứa */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+    object-fit: contain; /* Hiển thị toàn bộ hình ảnh, giữ tỷ lệ */
     display: block; /* Loại bỏ khoảng trống dưới hình ảnh */
 }
+
 /* Media query cho thiết bị di động */
 @media (max-width: 600px) {
     .image-placeholder {
-        height: 200px; /* Giảm chiều cao trên màn hình nhỏ */
-        max-width: 100%; /* Đảm bảo không vượt quá chiều rộng màn hình */
+        width: 100vw; /* Chiếm toàn bộ chiều rộng màn hình */
+        max-width: 100vw; /* Đảm bảo không vượt quá màn hình */
+        padding: 0; /* Loại bỏ padding */
+        margin: 0; /* Loại bỏ margin để sát mép */
+    }
+
+    .image-placeholder img {
+        width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng */
+        max-width: 100%; /* Không vượt quá màn hình */
+        height: auto; /* Giữ tỷ lệ */
+        object-fit: contain; /* Giữ tỷ lệ, không cắt hình */
     }
 }
     </style>
