@@ -117,11 +117,9 @@
             padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 20px;
             font-size: 1em;
             font-family: 'Roboto', sans-serif;
             transition: background-color 0.2s, transform 0.1s;
-            margin-right: 10px;
         }
         button:hover {
             background-color: #357ABD;
@@ -132,6 +130,12 @@
         }
         button.reset:hover {
             background-color: #DC2626;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
         }
         .vietnamese {
             font-family: 'Roboto', sans-serif;
@@ -306,13 +310,15 @@
         </div>
     </div>
 
-    <button id="start-test" type="button">Bắt đầu làm bài</button>
-    <button id="history-test" type="button" onclick="window.showPasswordModal()">Lịch sử kiểm tra</button>
+    <div class="button-group">
+        <button id="start-test" type="button">Bắt đầu làm bài</button>
+        <button id="history-test" type="button" onclick="window.showPasswordModal()">Lịch sử kiểm tra</button>
+    </div>
     <div id="message-info" class="error-message"></div>
 
     <div id="timer" class="timer" style="display: none;">Thời gian còn lại: 50:00</div>
 
-     <div class="question-section">
+    <div class="question-section">
         <h2>問題Ⅰ．（ ）に何をいれますか。１．２．３．４からいちばんいいものを一つえらんでください。（2*10=20）</h2>
         <div class="vietnamese">Chọn đáp án đúng nhất từ 1 đến 4 để điền vào chỗ trống.</div>
         <div class="example">
@@ -847,7 +853,7 @@
         </div>
         <div class="question">
             <p>日本で べんきょうして いる 学生が 「プレゼント」の ぶんしょうを 書いて、クラスの みんなの 前で 読みました。</p>
-            <p>1. ユリさんの ぶんしょう<br>わたしが １０さいに なったとき、母からの 誕生日 プレゼントは 一さつの 本でした。とても おもしろい 本で、すぐにぜんぶ読んで、それから、また はじめから 読みました。私は ねる前に、よく その 本を 読みました。その 本は 今も 私の ほんだなにあります。ときどき 読みます。</p>
+            <p>1. ユリさんの ぶんしょう<br>わたしが １０さいに なったとき、母からの 誕生日 プレゼントは 一さつの 本でした。とても おもしろい 本で、すぐにぜんぶ読んで、それから、また はじめから 読みました。私は ねる前に、よく その 本を 読みました。あなたは どんな 本を 読みますか。サムさんは、どんな プレゼントを もらいましたか。サムさんの ぶんしょうを 読んで、こたえて ください。</p>
             <p>2. サムさんの ぶんしょう<br>きょねんの たんじょう日に つまが ネクタイをもらいました。青い ネクタイです。わたしは ときどき その ネクタイを して、会社に 行きます。このあいだ DINHさんが「いい ネクタイですね」と いいました。わたしは とても うれしかったです。来月は つまの たんじょう日が あります。つまの たんじょう日に わたしも いいプレゼントをあげます。</p>
             <div class="question">
                 <p>３．ユリさんは ねる前に よく何を しましたか。</p>
@@ -1118,11 +1124,37 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Answer key (placeholder for lessons 13–18; update with actual answers)
+        // Answer key with text-based answers
         const answerKey = {
-            1: 1, 2: 3, 3: 3, 4: 3, 5: 4, 6: 4, 7: 2, 8: 4, 9: 1, 10: 3,
-            11: 1, 12: 4, 13: 2, 14: 3, 15: 1, 16: 4, 17: 1, 18: 3, 19: 3,
-            20: 3, 21: 4, 22: 1, 23: 4, 24: 3, 25: 2, 26: 3, 27: 1, 28: 4, 29: 4
+            1: "が、を",
+            2: "と",
+            3: "を、が",
+            4: "が、へ",
+            5: "で、が",
+            6: "吸って",
+            7: "作っています",
+            8: "運転する",
+            9: "止めないで",
+            10: "行かなくて",
+            11: "れんしゅう",
+            12: "何",
+            13: "かんたんでした",
+            14: "が",
+            15: "かいに",
+            16: "はやく",
+            17: "おもしろくて",
+            18: "にぎやかです。",
+            19: "でも",
+            20: "しょくじの前に、くすりを飲まなければなりません。",
+            21: "エアオンスーパーは ABCスーパーより 肉が高いです。",
+            22: "本を 読みました。",
+            23: "青いネクタイを もらいました。",
+            24: "けいざいの勉強にきました",
+            25: "誕生日",
+            26: "英語のうたをうたうこと",
+            27: "日本語のうたのCD",
+            28: "１２月１３日は 車やバスで としょかんへ 来ることが できません。",
+            29: "帰る日"
         };
 
         // Section points
@@ -1151,12 +1183,54 @@
             return 'F';
         }
 
+        function shuffleOptions() {
+            const questionIds = [
+                'q1-rei', 'q2-rei', // Example questions
+                'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10',
+                'q11', 'q12', 'q13', 'q14', 'q15',
+                'q16', 'q17', 'q18', 'q19',
+                'q20', 'q21', 'q22', 'q23',
+                'q24', 'q25', 'q26', 'q27',
+                'q28', 'q29'
+            ];
+
+            questionIds.forEach(qId => {
+                const optionsContainer = document.querySelector(`input[name="${qId}"]`).closest('.options');
+                const options = Array.from(optionsContainer.querySelectorAll('.option'));
+                // Store original option data
+                const optionData = options.map(option => ({
+                    id: option.querySelector('input').id,
+                    name: option.querySelector('input').name,
+                    label: option.querySelector('label').textContent,
+                    forAttr: option.querySelector('label').getAttribute('for')
+                }));
+
+                // Fisher-Yates shuffle
+                for (let i = optionData.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [optionData[i], optionData[j]] = [optionData[j], optionData[i]];
+                }
+
+                // Update DOM with shuffled options
+                optionsContainer.innerHTML = '';
+                optionData.forEach((data, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.innerHTML = `
+                        <input type="radio" id="${qId}-${index + 1}" name="${data.name}">
+                        <label for="${qId}-${index + 1}">${data.label}</label>
+                    `;
+                    optionsContainer.appendChild(optionDiv);
+                });
+            });
+        }
+
         function calculateRadioSectionScore(startQuestion, endQuestion, pointsPerQuestion) {
             let score = 0;
             for (let i = startQuestion; i <= endQuestion; i++) {
                 const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
                 if (selectedOption) {
-                    const userAnswer = parseInt(selectedOption.id.split('-')[1]);
+                    const userAnswer = selectedOption.nextElementSibling.textContent;
                     if (userAnswer === answerKey[i]) {
                         score += pointsPerQuestion;
                     }
@@ -1174,7 +1248,7 @@
                 feedbackElement.classList.add('wrong');
                 return;
             }
-            const userAnswer = parseInt(selectedOption.id.split('-')[1]);
+            const userAnswer = selectedOption.nextElementSibling.textContent;
             if (userAnswer === answerKey[questionNumber]) {
                 feedbackElement.textContent = 'Đúng!';
                 feedbackElement.classList.remove('wrong');
@@ -1368,8 +1442,7 @@
             document.getElementById('score-display').innerHTML = '';
             document.getElementById('timer').style.display = 'none';
             document.getElementById('submit-test').style.display = 'none';
-            document.getElementById('start-test').style.display = 'block';
-            document.getElementById('history-test').style.display = 'block';
+            document.querySelector('.button-group').style.display = 'flex';
             document.querySelectorAll('.question-section').forEach(section => {
                 section.style.display = 'none';
             });
@@ -1381,6 +1454,7 @@
                 feedback.classList.remove('wrong');
             });
             clearInterval(timerInterval);
+            shuffleOptions();
         }
 
         document.getElementById('start-test').addEventListener('click', () => {
@@ -1390,22 +1464,25 @@
             const messageInfo = document.getElementById('message-info');
 
             if (!name || !className || !dateInput) {
-                messageInfo.textContent = 'Vui lòng điền đầy đủ thông tin: Tên, Lớp, và Ngày.';
+                messageInfo.textContent = 'Vui lòng điền đầy đủ thông tin cá nhân.';
                 return;
             }
 
             messageInfo.textContent = '';
-            document.getElementById('start-test').style.display = 'none';
-            document.getElementById('history-test').style.display = 'none';
+            document.querySelector('.button-group').style.display = 'none';
+                        document.getElementById('submit-test').style.display = 'block';
+            document.getElementById('timer').style.display = 'block';
             document.querySelectorAll('.question-section').forEach(section => {
                 section.style.display = 'block';
             });
-            document.getElementById('submit-test').style.display = 'block';
-            document.getElementById('timer').style.display = 'block';
+
+            shuffleOptions(); // Shuffle options on start
             startTimer();
         });
 
-        document.getElementById('submit-test').addEventListener('click', submitTest);
+        document.getElementById('submit-test').addEventListener('click', () => {
+            submitTest();
+        });
     </script>
 </body>
 </html>
