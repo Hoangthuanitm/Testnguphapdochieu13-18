@@ -1120,7 +1120,7 @@
 
         // Answer key (placeholder for lessons 13–18; update with actual answers)
         const answerKey = {
-            1: 1, 2: 3, 3: 3, 4: 3, 5: 4, 6: 4, 7: 3, 8: 4, 9: 1, 10: 3,
+            1: 1, 2: 3, 3: 3, 4: 3, 5: 4, 6: 4, 7: 2, 8: 4, 9: 1, 10: 3,
             11: 1, 12: 4, 13: 2, 14: 3, 15: 1, 16: 4, 17: 1, 18: 3, 19: 3,
             20: 3, 21: 4, 22: 1, 23: 4, 24: 3, 25: 2, 26: 3, 27: 1, 28: 4, 29: 4
         };
@@ -1128,58 +1128,16 @@
         // Section points
         const sectionPoints = {
             1: 20, // 10 questions, 2 points each
-            2: 15, // 5 questions, 3 points each
-            3: 20, // 4 questions, 5 points each
-            4: 10, // 2 questions, 5 points each
-            5: 10, // 2 questions, 5 points each
-            6: 10, // 2 questions, 5 points each
-            7: 10, // 2 questions, 5 points each
+            2: 20, // 5 questions, 4 points each
+            3: 10, // 4 questions, 2.5 points each
+            4: 16, // 4 questions, 4 points each
+            5: 16, // 4 questions, 4 points each
+            6: 8,  // 1 question, 8 points
+            7: 10, // 1 question, 10 points
         };
 
         let startTime = null;
         let timerInterval = null;
-
-        // Shuffle array using Fisher-Yates algorithm
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        // Shuffle answer options for all questions and examples
-        function shuffleOptions() {
-            const questionIds = ['q1-rei', 'q2-REI', ...Array.from({length: 29}, (_, i) => `q${i+1}`)];
-            questionIds.forEach(qId => {
-                const optionsContainer = document.querySelector(`input[name="${qId}"]`)?.closest('.options');
-                if (!optionsContainer) return;
-
-                const options = Array.from(optionsContainer.querySelectorAll('.option'));
-                const optionData = options.map(option => ({
-                    inputId: option.querySelector('input').id,
-                    inputName: option.querySelector('input').name,
-                    labelText: option.querySelector('label').textContent.replace(/^\d+\.\s*/, ''),
-                    labelFor: option.querySelector('label').getAttribute('for'),
-                    isChecked: option.querySelector('input').checked
-                }));
-
-                // Shuffle options
-                const shuffledOptions = shuffleArray(optionData);
-
-                // Update DOM with shuffled options
-                optionsContainer.innerHTML = '';
-                shuffledOptions.forEach((data, index) => {
-                    const optionDiv = document.createElement('div');
-                    optionDiv.className = 'option';
-                    optionDiv.innerHTML = `
-                        <input type="radio" id="${data.inputId}" name="${data.inputName}" ${data.isChecked ? 'checked' : ''}>
-                        <label for="${data.inputId}">${data.labelText}</label>
-                    `;
-                    optionsContainer.appendChild(optionDiv);
-                });
-            });
-        }
 
         function normalizeString(str) {
             return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -1444,7 +1402,6 @@
             });
             document.getElementById('submit-test').style.display = 'block';
             document.getElementById('timer').style.display = 'block';
-            shuffleOptions();
             startTimer();
         });
 
